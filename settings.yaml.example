@@ -1,0 +1,36 @@
+version: "2.0"
+server:
+  name: sighefio
+  host: localhost
+  port: 8000
+  topics:
+    - name: "erp.address.1"
+      db_host: "127.0.0.1"
+      db_port: 5432
+      db_user: admin
+      db_password: admin
+      db_name: odoo13
+      driver: postgresql
+      table: outbox
+      security_protocol: "SASL_PLAINTEXT"
+      sasl_mechanism: "PLAINTEXT"
+      kafka_user: "admin"
+      kafka_password: "admin-secret"
+      order: "created_at, id"
+      brokers:
+        - "127.0.0.1:9092"
+    - name: "erp.nrc.1"
+      db_host: "127.0.0.1"
+      db_port: 5432
+      db_user: admin
+      db_password: admin
+      db_name: odoo13
+      driver: postgresql
+      table: outbox
+      security_protocol: "SASL_PLAINTEXT"
+      sasl_mechanism: "PLAINTEXT"
+      kafka_user: "admin"
+      kafka_password: "admin-secret"
+      order: "created_at, id"
+      brokers:
+        - "127.0.0.1:9092"
