@@ -33,6 +33,7 @@ func main() {
 	var isDone bool = false
 	processChan := make(chan string)
 	doneChan := make(chan struct{}, 1)
+	forceDoneChan := make(chan struct{}, 1)
 
 	// Close Signal
 	c := make(chan os.Signal)
@@ -41,6 +42,8 @@ func main() {
 		<-c
 		isDone = true
 		_logger.Info("Close by user")
+		time.Sleep(time.Second * 10)
+		forceDoneChan <- struct{}{}
 	}()
 
 	topicMap := make(map[string]config.Topic, 10)
@@ -68,7 +71,11 @@ func main() {
 		}
 		close(doneChan)
 	}()
-	<-doneChan
-	_logger.Info("Successfully Closed")
+	select {
+	case <-doneChan:
+		_logger.Info("Successfully Closed")
+	case <-forceDoneChan:
+		_logger.Error("Force Stopped")
+	}
 	_logger.Close()
 }

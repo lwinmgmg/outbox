@@ -34,7 +34,7 @@ func RunMgr(conf config.Topic, closeChan chan<- string, isDone *bool) {
 	}()
 
 	// connecting db
-	db, err := service.GetPgDb(conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPassword, conf.DbName)
+	db, err := service.GetDb(conf.Driver, conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPassword, conf.DbName)
 	if err != nil {
 		_logger.Error("Error on connecting database in Topic [%v] process\n", conf.Name)
 		return
